@@ -21,6 +21,7 @@ def staircase(n):
     buf += '\n'
     print(buf)
 
+
 def miniMaxSum(arr):
     min_sum, max_sum = sum(arr), -sum(arr)
     for i in range(len(arr)):
@@ -30,6 +31,7 @@ def miniMaxSum(arr):
         if partial_sum > max_sum:
             max_sum = partial_sum
     print(f'{min_sum} {max_sum}')
+
 
 def two_sum(nums, target):
     """
@@ -141,6 +143,7 @@ def valid_palindrome(input_str):
         end -= 1
     return True
 
+
 def strstr_bruteforce(needle, haystack: str):
     """
         Returns the index of the first occurrence of needle in haystack, or –1
@@ -163,7 +166,8 @@ def strstr_bruteforce(needle, haystack: str):
                 pattern_char = needle[j]
                 break
 
-def longest_str(input_str):
+
+def longest_substr_with_no_repeated(s):
     if len(s) == 0: return 0
     start = maxLength = 0
     usedChars = {}
@@ -175,12 +179,14 @@ def longest_str(input_str):
         usedChars[s[i]] = i
     return maxLength
 
+
 def reverse_str(str_list: list, begin: int, end: int):
     for i in range((end - begin) // 2):
         swap = str_list[begin + i]
         str_list[begin + i] = str_list[end - i -1]
         str_list[end - i -1] = swap
     return ''.join(str_list)
+
 
 def reverse_sentence(input_str: str):
     reversed_words = list(input_str)
@@ -190,6 +196,7 @@ def reverse_sentence(input_str: str):
             reverse_str(reversed_words, i, j)
             i = j + 1
     return ''.join(reversed_words)
+
 
 def find_missing_ranges(values, start, end):
     """
@@ -209,11 +216,13 @@ def find_missing_ranges(values, start, end):
         prev = current
     return ranges
 
-def expand_around_center(s,l,r):
+
+def expand_around_center(s, l, r):
     while l >= 0 and r < len(s) and s[l] == s[r]:
         l -= 1
         r += 1
     return s[l+1:r]
+
 
 def longest_palindrome(s):
     """Given a string S, find the longest palindromic substring in S.
@@ -230,6 +239,7 @@ def longest_palindrome(s):
         if len(tmp) > len(longest):
             longest = tmp
     return longest
+
 
 def is_one_edit_distance(s: str, t: str) -> bool:
     """Given two strings S and T, determine if they are both one edit distance apart."""
@@ -252,6 +262,7 @@ def is_one_edit_distance(s: str, t: str) -> bool:
         i += 1
     return i==small_str_len
 
+
 def integer_reverse(x: int):
     reversed = 0
     neg = 1
@@ -265,6 +276,7 @@ def integer_reverse(x: int):
         reversed = reversed * -1
     return reversed
 
+
 def plus_one(digits: list):
     num_digits = len(digits)
     in_mind = 1
@@ -276,13 +288,14 @@ def plus_one(digits: list):
         digits = [1] + digits
     return digits
 
+
 def is_integer_palindrome(x: int):
     if x < 0:
         return False
     div = 1
     while x // div >= 10:
         div = div * 10
-    while x !=0:
+    while x != 0:
         l = x // div
         r = x % 10
         if l != r:
@@ -290,6 +303,7 @@ def is_integer_palindrome(x: int):
         x = (x % div) // 10
         div = div // 100
     return True
+
 
 if __name__ == '__main__':
     # print(timeConversion('07:05:45PM'))

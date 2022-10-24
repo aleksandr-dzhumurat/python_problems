@@ -24,3 +24,31 @@ source .env/bin/activate
 ```shell
 pip3 install -r requirements.txt
 ```
+
+## Окружение для Mac
+
+```shell
+brew install openssl xz gdbm
+```
+
+```shell
+brew install pyenv-virtualenv
+```
+
+```shell
+pyenv install 3.8.10
+```
+
+```shell
+pyenv virtualenv 3.8.10 problem-env
+```
+
+```shell
+pyenv install 3.8.10
+```
+
+```shell
+    source ~/.pyenv/versions/problem-env/bin/activate
+```
+
+

@@ -53,5 +53,5 @@ class TestStringMethods(unittest.TestCase):
         self.assertLinkedListEqual(swap_nodes_in_pairs(l1), origin)
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     unittest.main()
