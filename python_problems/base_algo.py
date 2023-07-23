@@ -168,6 +168,7 @@ def strstr_bruteforce(needle, haystack: str):
 
 
 def longest_substr_with_no_repeated(s):
+    """https://leetcode.com/problems/longest-substring-without-repeating-characters/"""
     if len(s) == 0: return 0
     start = maxLength = 0
     usedChars = {}
@@ -304,6 +305,106 @@ def is_integer_palindrome(x: int):
         div = div // 100
     return True
 
+def move_zeroes(nums):
+    """
+    :type nums: List[int]
+    :rtype: None Do not return anything, modify nums in-place instead.
+    """
+    j = 0
+    for num in nums:
+        if num != 0:
+            nums[j] = num
+            j += 1
+    while j < len(nums):
+        nums[j] = 0
+        j += 1
+    return nums
+
+def numRescueBoats(people, limit):
+    """
+    :type people: List[int]
+    :type limit: int
+    :rtype: int
+    """
+    people = sorted(people)
+    light_p = 0
+    heavy_p = len(people) - 1
+    boats = 0
+    while light_p <= heavy_p:
+        if people[light_p] + people[heavy_p] <= limit:
+            light_p += 1
+            heavy_p -= 1
+            boats +=1
+        else:
+            heavy_p -= 1
+            boats +=1
+    return boats
+
+def validMountainArray(arr):
+    """
+    https://leetcode.com/problems/valid-mountain-array/
+
+    :type arr: List[int]
+    :rtype: bool
+    """
+    i = 1
+    while i < len(arr) and  arr[i] > arr[i-1]:
+        i += 1
+    if i==1 or i == len(arr):
+        return False
+    while i < len(arr) and arr[i] < arr[i-1]:  # check len at first!!
+        i += 1
+    if i == len(arr):
+        return True
+    else:
+        return False
+
+def maxArea(height):
+    """
+    https://leetcode.com/problems/container-with-most-water/
+    :type height: List[int]
+    :rtype: int
+    """
+    def eval_area(i, j):
+        return min(height[i], height[j])*(j - i)
+    left = 0
+    right = len(height) - 1
+    max_vol = 0
+    while left < right:
+        vol = eval_area(left, right)
+        max_vol = max(max_vol, vol)
+        if height[left] < height[right]:
+            left += 1
+        else:
+            right -= 1
+    return max_vol
+
+def searchRange(nums, target):
+    """
+    https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+    :type nums: List[int]
+    :type target: int
+    :rtype: List[int]
+    """
+    first_entry = -1
+    last_entry = -1
+    for i in range(len(nums)):
+        if nums[i] == target:
+            first_entry = i
+            break
+    last_entry = first_entry
+    if first_entry >=0:
+        while last_entry < len(nums) and nums[last_entry] == target:
+            last_entry += 1
+        last_entry -= 1
+    return [first_entry, last_entry]
+
+
+def firstBadVersion(n):
+    """ https://leetcode.com/problems/first-bad-version/
+    :type n: int
+    :rtype: int
+    """
 
 if __name__ == '__main__':
     # print(timeConversion('07:05:45PM'))
@@ -327,3 +428,9 @@ if __name__ == '__main__':
     # is_integer_palindrome(101)
     # ------- LIMKED LIST ------- #
     pass
+    #----------------
+    # print(move_zeroes([0, 1, 0, 3, 12]))
+    # print(numRescueBoats([1,2], 3))
+    # print(validMountainArray([0,5,3,1]))
+    # print(maxArea([5, 9, 2, 1, 4]))
+    # print(searchRange([10,11,11,11,14,15], 11))
