@@ -33,8 +33,8 @@ def miniMaxSum(arr):
     print(f'{min_sum} {max_sum}')
 
 
-def two_sum(nums, target):
-    """
+def twoSum(nums, target):
+    """https://leetcode.com/problems/two-sum/
     Given an array of integers, return indices of the two numbers such that they add up to a specific target.
 
     You may assume that each input would have exactly one solution, and you may not use the same element twice.
@@ -49,8 +49,11 @@ def two_sum(nums, target):
         )
     )
     for i in range(num_items):
-        if target - nums[i] in arr_hash_map:
-            return (i, arr_hash_map[target - nums[i]])
+        diff = target - nums[i]
+        # special case where target == num // 2 for some num
+        if diff in arr_hash_map:
+            if i!=arr_hash_map[target - nums[i]]:
+                return (i, arr_hash_map[target - nums[i]])
 
 
 def timeConversion(s):
@@ -399,19 +402,197 @@ def searchRange(nums, target):
         last_entry -= 1
     return [first_entry, last_entry]
 
+def isBadVersion(version, ground_truth):
+    if version >= ground_truth:
+        return True
+    else:
+        return False
 
-def firstBadVersion(n):
+def firstBadVersion_array(n: int, ground_truth: int):
     """ https://leetcode.com/problems/first-bad-version/
     :type n: int
     :rtype: int
     """
+    sorted_arr = list(range(1,n+1))
+    N = len(sorted_arr)
+    low = 0
+    high = N - 1
+    while low <= high:
+        if low == high:
+            break
+        mid_index = (high + low) // 2
+        mid_elem = sorted_arr[mid_index]
+        if isBadVersion(mid_elem):
+            high = mid_index
+        else:
+            low = mid_index + 1
+    if not isBadVersion(sorted_arr[mid_index]):
+        mid_index += 1  # 2, 2
+    return sorted_arr[mid_index]
+
+def firstBadVersion(n: int, ground_truth: int):
+    """ https://leetcode.com/problems/first-bad-version/
+    :type n: int
+    :rtype: int
+    """
+    low = 1
+    high = n
+    while low <= high:
+        if low == high:
+            break
+        mid_elem = (high + low) // 2
+        if isBadVersion(mid_elem, ground_truth):
+            high = mid_elem
+        else:
+            low = mid_elem + 1
+    if not isBadVersion(mid_elem, ground_truth):
+        mid_elem += 1  # 2, 2
+    return mid_elem
+
+def missingNumber(self, nums):
+    """ https://leetcode.com/problems/missing-number
+    TODO: improve, based on Gauss formula progression)
+    :type nums: List[int]
+    :rtype: int
+    """
+    n = len(nums)
+    num_exists ={}
+    for i in nums:
+        num_exists[i] = True
+    for i in range(n+1):
+        if not i in num_exists:
+            return i
+
+def countPrimes(n: int):
+    """https://leetcode.com/problems/count-primes/
+    sieve of eratosthenes
+    :type n: int
+    :rtype: int
+    """
+    if n <=2: return 0
+    is_prime = [True] * n
+    is_prime[0] = is_prime[1] = False
+    for i in range(2, int(math.ceil(math.sqrt(n)))):
+        if is_prime[i]:
+            for k in range(i * i, n, i):
+                is_prime[k] = False
+    return sum(is_prime)
+
+def singleNumber(nums):
+    """ https://leetcode.com/problems/single-number/
+    :type nums: List[int]
+    :rtype: int
+    """
+    uniq_nums = set(nums)
+    check_sum = sum(uniq_nums) * 2
+    actual_sum = sum(nums)
+
+    return check_sum - actual_sum
+
+def judgeCircle(moves):
+    """https://leetcode.com/problems/robot-return-to-origin/
+    :type moves: str
+    :rtype: bool
+    """
+    x, y = (0, 0)
+    for m in moves:
+        if m == 'U':
+            y +=1 
+        elif m == 'R':
+            x +=1
+        elif m == 'D':
+            y -= 1
+        elif m == 'L':
+            x -=1
+    if x == 0 and y ==0:
+        return True
+    else:
+        return False
+
+def addBinary(a, b):
+    """ https://leetcode.com/problems/add-binary/
+    :type a: str
+    :type b: str
+    :rtype: str
+    """
+    i = len(a) - 1
+    j = len(b) - 1
+    res = ""
+    carry = 0
+    while (i>=0 or j>=0 or carry==1):
+        cur_sum = carry
+        if i>=0:
+            cur_sum  += int(a[i])
+            i -= 1
+        if j>=0:
+            cur_sum  += int(b[j])
+            j -= 1
+        res = str(cur_sum % 2) + res
+        carry = cur_sum // 2
+    return res
+
+
+def containsDuplicate(nums):
+    """https://leetcode.com/problems/contains-duplicate/
+    :type nums: List[int]
+    :rtype: bool
+    """
+    entries = {}
+    for i in nums:
+        if i in entries:
+            return True
+        entries[i] = True
+
+def majorityElement(nums):
+    """https://leetcode.com/problems/majority-element/submissions/
+    :type nums: List[int]
+    :rtype: int
+    """
+    majority_element_count = int(math.floor(len(nums) / 2))
+    res = {}
+    for num in nums:
+        res[num] = res.get(num, 0) + 1
+        if res[num] > majority_element_count:
+            return num
+
+def majorityElementBoyerMoor(nums):
+    """https://leetcode.com/problems/majority-element/submissions/
+    Only if you can garatee that majority element exists
+
+    :type nums: List[int]
+    :rtype: int
+    """
+    candidate = nums[0]
+    cnt = 0
+    for num in nums:
+        if cnt == 0:
+            candidate = num
+        if candidate == num:
+            cnt += 1
+        else:
+            cnt -= 1
+    return candidate
+
+
+def groupAnagrams(strs):
+    """https://leetcode.com/problems/group-anagrams/
+    :type strs: List[str]
+    :rtype: List[List[str]]
+    """
+    res = {}
+    for token in strs:
+        key = ''.join(sorted(token))
+        res[key] = res.get(key, []) + [token]
+    return [res[k] for k in res]
+
+    
 
 if __name__ == '__main__':
     # print(timeConversion('07:05:45PM'))
     # print(timeConversion('17:05:45PM'))
     # print(timeConversion('07:05:45AM'))
     # print(timeConversion('17:05:45AM'))
-    # print(two_sum([2, 7, 11, 15, 3, 6], 9))
+    # print(twoSum([3,2,4], 6))# print(two_sum([2, 7, 11, 15, 3, 6], 9))
     # print(bin_search([2, 7, 11, 15, 3, 6], target=15))
     # print(bin_search([2, 7, 11, 15, 3, 6], target=2))
     # print(two_sum_sorted([2, 3, 6, 7, 11, 15], target_num=9))
@@ -434,3 +615,11 @@ if __name__ == '__main__':
     # print(validMountainArray([0,5,3,1]))
     # print(maxArea([5, 9, 2, 1, 4]))
     # print(searchRange([10,11,11,11,14,15], 11))
+    # print(firstBadVersion(2, 2)) # print(firstBadVersion(5, 4)) # print(firstBadVersion(10, 3))
+    # print(countPrimes(10))
+    # print(singleNumber([4,1,2,1,2]))
+    # print(judgeCircle("UD"))
+    # print(addBinary(a="1010", b = "1011")) # print(addBinary(a="11", b = "1"))
+    # print(containsDuplicate([2, 1, 3, 1]))
+    # print(majorityElement([0]))
+    print(groupAnagrams(["eat","tea","tan","ate","nat","bat"]))
