@@ -220,13 +220,11 @@ def find_missing_ranges(values, start, end):
         prev = current
     return ranges
 
-
 def expand_around_center(s, l, r):
     while l >= 0 and r < len(s) and s[l] == s[r]:
         l -= 1
         r += 1
     return s[l+1:r]
-
 
 def longest_palindrome(s):
     """Given a string S, find the longest palindromic substring in S.
@@ -243,7 +241,6 @@ def longest_palindrome(s):
         if len(tmp) > len(longest):
             longest = tmp
     return longest
-
 
 def is_one_edit_distance(s: str, t: str) -> bool:
     """Given two strings S and T, determine if they are both one edit distance apart."""
@@ -266,7 +263,6 @@ def is_one_edit_distance(s: str, t: str) -> bool:
         i += 1
     return i==small_str_len
 
-
 def integer_reverse(x: int):
     reversed = 0
     neg = 1
@@ -280,7 +276,6 @@ def integer_reverse(x: int):
         reversed = reversed * -1
     return reversed
 
-
 def plus_one(digits: list):
     num_digits = len(digits)
     in_mind = 1
@@ -291,7 +286,6 @@ def plus_one(digits: list):
     if in_mind == 1:
         digits = [1] + digits
     return digits
-
 
 def is_integer_palindrome(x: int):
     if x < 0:
@@ -531,7 +525,6 @@ def addBinary(a, b):
         carry = cur_sum // 2
     return res
 
-
 def containsDuplicate(nums):
     """https://leetcode.com/problems/contains-duplicate/
     :type nums: List[int]
@@ -573,7 +566,6 @@ def majorityElementBoyerMoor(nums):
             cnt -= 1
     return candidate
 
-
 def groupAnagrams(strs):
     """https://leetcode.com/problems/group-anagrams/
     :type strs: List[str]
@@ -585,7 +577,50 @@ def groupAnagrams(strs):
         res[key] = res.get(key, []) + [token]
     return [res[k] for k in res]
 
-    
+
+def fourSumCount(nums1, nums2, nums3, nums4):
+    """https://leetcode.com/problems/4sum-ii/
+    :type nums1: List[int]
+    :type nums2: List[int]
+    :type nums3: List[int]
+    :type nums4: List[int]
+    :rtype: int
+    """
+    input_len = len(nums1)
+    sums_12 = {}
+    sums_34 = {}
+    for i in range(input_len):
+        for j in range(input_len):
+            k1 = nums1[i] + nums2[j]
+            # res = sums_12.get(k1, [])
+            res = sums_12.get(k1, 0)
+            # sums_12[k1] = res + [(i, j)]
+            sums_12[k1] = res + 1
+
+            k2 = nums3[i] + nums4[j]
+            # res = sums_34.get(k2, [])
+            res = sums_34.get(k2, 0)
+            # sums_34[k2] = res + [(i, j)]
+            sums_34[k2] = res + 1
+    cnt = 0
+    for k in sums_12:
+        # cnt += len(sums_34.get(-1 * k, [])) * len(sums_12[k])
+        if -k in sums_34:
+            cnt += sums_12[k] * sums_34[-k]
+    return cnt
+
+def find_min_cycle_shifted(arr: list):
+    """https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/
+    """
+    left = 0
+    right = len(arr) - 1
+    while left < right:
+        mid = left + (right - left) // 2 
+        if arr[mid] > arr[right]:
+            left = mid + 1
+        else:
+            right = mid
+    return arr[left]
 
 if __name__ == '__main__':
     # print(timeConversion('07:05:45PM'))
@@ -603,6 +638,7 @@ if __name__ == '__main__':
     # print(find_missing_ranges([0, 1, 3, 50, 75], 0, 99))
     # print(longest_palindrome("hgtabgbaggg"))
     # print(is_one_edit_distance("baggg", "bagg"))
+    # print(find_min_cycle_shifted([3, 2])) # [2,4,5,0,1]
     # ------- MATH ------- #
     # print(integer_reverse(-1234)
     # print(plus_one([9,9,9,9]))'
@@ -622,4 +658,5 @@ if __name__ == '__main__':
     # print(addBinary(a="1010", b = "1011")) # print(addBinary(a="11", b = "1"))
     # print(containsDuplicate([2, 1, 3, 1]))
     # print(majorityElement([0]))
-    print(groupAnagrams(["eat","tea","tan","ate","nat","bat"]))
+    # print(groupAnagrams(["eat","tea","tan","ate","nat","bat"]))
+    # assert fourSumCount(nums1 = [-1,1,1,1,-1], nums2 =  [0,-1,-1,0,1] , nums3 = [-1,-1,1,-1,-1] , nums4 = [0,1,0,-1,-1]) == 132
