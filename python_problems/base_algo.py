@@ -622,6 +622,41 @@ def find_min_cycle_shifted(arr: list):
             right = mid
     return arr[left]
 
+
+def minWindow(s, t):
+    """https://leetcode.com/problems/minimum-window-substring/
+    :type s: str
+    :type t: str
+    :rtype: str
+    """
+    res = ""
+    if len(s) < len(t):
+        return res
+    s_hashmap, pattern_hashmap = defaultdict(lambda: 0), defaultdict(lambda: 0)
+    for i in t:  # same as Counter BTW
+        pattern_hashmap[i] += 1
+    l, r, cnt, start_index = 0, 0, 0, -1
+    min_len = float('inf')
+    for r in range(len(s)): # window exanding
+        cur_char  = s[r]
+        s_hashmap[cur_char] += 1
+        if cur_char in pattern_hashmap and s_hashmap[cur_char] <= pattern_hashmap[cur_char]:
+            cnt += 1
+        if cnt == len(t):  #window collapsing
+            while s[l] not in pattern_hashmap or s_hashmap[s[l]] > pattern_hashmap[s[l]]:
+                left_char = s[l]
+                if left_char in pattern_hashmap and s_hashmap[left_char] > pattern_hashmap[left_char]:
+                    s_hashmap[left_char] -=  1
+                l += 1  # more then enough characters still in  window
+            window_len = r - l + 1
+            if min_len > window_len:
+                min_len = window_len
+                start_index = l
+    if start_index != -1:
+        res = s[start_index:start_index + min_len]
+    return res
+
+
 if __name__ == '__main__':
     # print(timeConversion('07:05:45PM'))
     # print(timeConversion('17:05:45PM'))
@@ -660,3 +695,5 @@ if __name__ == '__main__':
     # print(majorityElement([0]))
     # print(groupAnagrams(["eat","tea","tan","ate","nat","bat"]))
     # assert fourSumCount(nums1 = [-1,1,1,1,-1], nums2 =  [0,-1,-1,0,1] , nums3 = [-1,-1,1,-1,-1] , nums4 = [0,1,0,-1,-1]) == 132
+    print(minWindow(s="ADOBECODEBANC", t="ABC"))
+    assert minWindow(s="ADOBECODEBANC", t="ABC") == "BANC"

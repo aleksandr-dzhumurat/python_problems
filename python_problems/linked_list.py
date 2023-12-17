@@ -72,8 +72,7 @@ def print_linked_list(l: LinkedList):
 
 
 def merge_sorted_lists(l1: LinkedList, l2: LinkedList):
-    """
-        
+    """https://leetcode.com/problems/merge-two-sorted-lists/
     """
     result_list = LinkedList()
     i = l1._head
@@ -415,14 +414,6 @@ if __name__ == '__main__':
 
     # print('item: ', linked_list.get(4))
     print_my_linked_list(linked_list)
-
-
-
-
-
-
-
-
 
     # linked_list.deleteAtIndex(2)
     # linked_list.addAtHead(6)
