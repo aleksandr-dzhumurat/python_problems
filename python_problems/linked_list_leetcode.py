@@ -36,5 +36,57 @@ def hasCycle(head):
             return True
     return False
 
+def add_two_numbers(l1, l2):
+    """https://leetcode.com/problems/add-two-numbers/description/"""
+    res = ListNode(None)
+    current = res
+    carry = val_sum = 0
+    while l1 is not None or l2 is not None:
+        val_sum = carry
+        if l1 is not None:
+            val_sum += l1.val
+            l1 = l1.next
+        if l2 is not None:
+            val_sum += l2.val
+            l2 = l2.next
+        carry = val_sum // 10
+        current.next = ListNode(val_sum % 10)
+        current = current.next
+    if carry == 1:
+        current.next = ListNode(carry)
+    return res.next
+
+def remove_nth_from_end(head, n):
+    """https://leetcode.com/problems/remove-nth-node-from-end-of-list/"""
+    tmp = ListNode(None)
+    tmp.next = head
+
+    slow = tmp
+    fast = tmp.next
+    for _ in range(n):
+        fast = fast.next
+    while fast is not None:
+        fast = fast.next
+        slow = slow.next
+    slow.next = slow.next.next
+    return tmp.next
+
+def odd_even_list(head):
+    """https://leetcode.com/problems/odd-even-linked-list/description/"""
+    odd = head
+    even = head.next
+
+    even_list = odd.next
+    while even is not None and even.next is not None:
+        odd.next = even.next
+        odd = odd.next
+
+        even.next = odd.next
+        even = even.next
+    odd.next = even_list
+    return head
+
+
+
 def reverseList():
     pass
