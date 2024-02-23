@@ -73,6 +73,8 @@ def remove_nth_from_end(head, n):
 
 def odd_even_list(head):
     """https://leetcode.com/problems/odd-even-linked-list/description/"""
+    if head is None:
+        return None
     odd = head
     even = head.next
 
