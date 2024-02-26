@@ -1,14 +1,9 @@
 #!/bin/python3
 
 import math
-import os
-import random
-import re
-import sys
 from collections import defaultdict
 
 
-# Complete the staircase function below.
 def staircase(n):
     buf = ''
     for i in range(n):
@@ -621,6 +616,22 @@ def find_min_cycle_shifted(arr: list):
         else:
             right = mid
     return arr[left]
+
+
+def nextGreatestLetter(letters, target):
+    """https://leetcode.com/problems/find-smallest-letter-greater-than-target"""
+    n = len(letters)
+    if letters[-1] <= target:
+        return letters[0]
+    low = 0
+    high = n - 1
+    while low < high:
+        mid = (low + high) // 2
+        if letters[mid] <= target:
+            low = mid + 1
+        else:
+            high = mid
+    return letters[low]
 
 
 def minWindow(s, t):

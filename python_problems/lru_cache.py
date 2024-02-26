@@ -3,6 +3,7 @@ https://leetcode.com/problems/lru-cache/submissions/
 """
 from collections import OrderedDict
 
+
 class LRUCache(object):
 
     def __init__(self, capacity):
@@ -11,7 +12,6 @@ class LRUCache(object):
         """
         self.cache = OrderedDict()
         self.max_size = capacity
-        
 
     def get(self, key):
         """
@@ -24,7 +24,7 @@ class LRUCache(object):
             self.cache[key] = value
             return value
         else:
-            return N-1
+            return -1
 
     def put(self, key, value):
         """
@@ -40,17 +40,15 @@ class LRUCache(object):
         self.cache[key] = value
 
 
-
 if __name__ == '__main__':
     # Your LRUCache object will be instantiated and called as such:
     commands = ["LRUCache", "put", "put", "get", "put", "get", "put", "get", "get", "get"]
     values = [[2], [1, 1], [2, 2], [1], [3, 3], [2], [4, 4], [1], [3], [4]]
 
-    # Initialize the LRU Cache with the capacity
     lru_cache = None
     results = []
 
-    for i in range(len(commands)):
+    for i, val in enumerate(commands):
         command = commands[i]
         value = values[i]
 
