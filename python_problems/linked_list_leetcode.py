@@ -22,6 +22,27 @@ def merge_sorted_lists(list1: ListNode, list2: ListNode):
         cur_node.next = list2
     return res.next
 
+def merge_k_sorted_lists(lists):
+    """https://leetcode.com/problems/merge-k-sorted-lists/submissions/1187482119/
+    """
+    from heapq import heappush, heappop
+
+    heap = []
+    for head in lists:
+      if head:
+        heappush(heap, (head.val, head))
+    head = tail = None
+    while heap:
+      val, node = heappop(heap)  # always min element https://pythontic.com/algorithms/heapq/heappush
+      if not head:
+        head = tail = node
+      else:
+        tail.next = node
+        tail = node
+      if node.next:
+        heappush(heap, (node.next.val, node.next))
+    return head
+
 def hasCycle(head):
     """https://leetcode.com/problems/linked-list-cycle/
     """
@@ -89,6 +110,15 @@ def odd_even_list(head):
     return head
 
 
+def reverseList(head):
+    """https://leetcode.com/problems/reverse-linked-list/"""
+    prev = None
+    current = head
+    while current is not None:
+        next = current.next
+        current.next = prev
 
-def reverseList():
-    pass
+        prev = current
+        current = next
+    head = prev
+    return head

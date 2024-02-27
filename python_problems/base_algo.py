@@ -30,11 +30,6 @@ def miniMaxSum(arr):
 
 def twoSum(nums, target):
     """https://leetcode.com/problems/two-sum/
-    Given an array of integers, return indices of the two numbers such that they add up to a specific target.
-
-    You may assume that each input would have exactly one solution, and you may not use the same element twice.
-
-    Важно: в массиве не должно быть повторений
     """
     num_items = len(nums)
     arr_hash_map = dict(
@@ -68,6 +63,7 @@ def timeConversion(s):
 
 
 def bin_search(arr: list, target: int):
+    """https://leetcode.com/problems/binary-search"""
     sorted_arr = sorted(arr)
     N = len(sorted_arr)
     low = 0
@@ -81,6 +77,7 @@ def bin_search(arr: list, target: int):
             low = mid_index + 1
         else:
             return mid_index
+    return -1
 
 
 def two_sum_sorted(nums, target_num):
@@ -468,15 +465,21 @@ def countPrimes(n: int):
     return sum(is_prime)
 
 def singleNumber(nums):
-    """ https://leetcode.com/problems/single-number/
-    :type nums: List[int]
-    :rtype: int
-    """
+    """ https://leetcode.com/problems/single-number/"""
     uniq_nums = set(nums)
     check_sum = sum(uniq_nums) * 2
     actual_sum = sum(nums)
 
     return check_sum - actual_sum
+
+def singleNumberMemoryLimit(nums):
+    """ XORing a number with itself results in 0, and XORing any number with 0 results in the number itself.
+    By XORing all the elements in the array, the duplicates will cancel each other out, leaving only the single element.
+    """
+    result = 0
+    for num in nums:
+        result ^= num
+    return result
 
 def judgeCircle(moves):
     """https://leetcode.com/problems/robot-return-to-origin/

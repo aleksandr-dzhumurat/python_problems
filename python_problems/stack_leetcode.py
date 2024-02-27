@@ -33,3 +33,17 @@ class MinStack:
         if self.min_stack:
             return self.min_stack[-1]
 
+
+def isValid(s):
+    """https://leetcode.com/problems/valid-parentheses/description/"""
+    stack = []
+    brackets = {'(': ')', '{': '}', '[': ']'}
+    
+    for char in s:
+        if char in brackets.keys():
+            stack.append(char)
+        else:
+            if not stack or brackets[stack.pop()] != char:
+                return False
+    return not stack
+
