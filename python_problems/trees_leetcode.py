@@ -45,10 +45,26 @@ def has_path_sum(root, target_sum):
             if has_sum(root.right, target, cur_sum):
                 return True
         return False
-
     if root is None:
         return False
     return has_sum(root, target_sum, 0)
+
+def has_path_sum_ii(root):
+    """https://leetcode.com/problems/path-sum-ii/"""
+    result = []
+    def dfs(node, current_sum, path):
+        if not node:
+            return
+        current_sum += node.val
+        path.append(node.val)
+        if not node.left and not node.right and current_sum == targetSum:
+            result.append(path.copy())  # Append a copy to avoid modifying the original path
+        dfs(node.left, current_sum, path)
+        dfs(node.right, current_sum, path)
+        path.pop()  # Backtrack by removing the current node from the path
+    dfs(root, 0, [])
+    return result
+
 
 def lowest_common_ancestor(root, p, q):
     """https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
@@ -187,3 +203,32 @@ def postorderTraversal(root):
         result.extend(postorderTraversal(root.right))
         result.append(root.val)
     return result
+
+def isSameTree(p, q):
+    """https://leetcode.com/problems/same-tree/description/"""
+    if not p and not q:
+        return True
+    if not p or not q:
+        return False
+    if p.val != q.val:
+        return False
+    return isSameTree(p.left, q.left) and isSameTree(p.right, q.right)
+
+def isBalanced(root):
+    """https://leetcode.com/problems/balanced-binary-tree/"""
+    def height(node):
+        if not node:
+            return 0
+        return 1 + max(height(node.left), height(node.right))
+
+    def isBalancedHelper(node):
+        if not node:
+            return True
+        left_height = height(node.left)
+        right_height = height(node.right)
+
+        return abs(left_height - right_height) <= 1 and \
+               isBalancedHelper(node.left) and \
+               isBalancedHelper(node.right)
+
+    return isBalancedHelper(root)

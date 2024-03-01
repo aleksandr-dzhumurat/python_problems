@@ -565,16 +565,46 @@ def majorityElementBoyerMoor(nums):
     return candidate
 
 def groupAnagrams(strs):
-    """https://leetcode.com/problems/group-anagrams/
-    :type strs: List[str]
-    :rtype: List[List[str]]
-    """
+    """https://leetcode.com/problems/group-anagrams/"""
     res = {}
     for token in strs:
         key = ''.join(sorted(token))
         res[key] = res.get(key, []) + [token]
     return [res[k] for k in res]
 
+def is_anagram(s, t):
+    """https://leetcode.com/problems/valid-anagram/"""
+    if len(s) != len(t):
+        return False
+    char_count = {}
+    for char in s:
+        char_count[char] = char_count.get(char, 0) + 1
+    for char in t:
+        if char not in char_count or char_count[char] == 0:
+            return False
+        char_count[char] -= 1
+    return all(count == 0 for count in char_count.values())
+
+def findAnagrams(s, p):
+    """https://leetcode.com/problems/find-all-anagrams-in-a-string"""
+    if len(p) > len(s):
+        return []
+    result = []
+    window_size = len(p)
+    p_count = [0] * 26
+    window_count = [0] * 26
+    for char in p:
+        p_count[ord(char) - ord('a')] += 1
+    for i in range(window_size):
+        window_count[ord(s[i]) - ord('a')] += 1
+    if window_count == p_count:
+        result.append(0)
+    for i in range(1, len(s) - window_size + 1):
+        window_count[ord(s[i - 1]) - ord('a')] -= 1  # Remove the leftmost character
+        window_count[ord(s[i + window_size - 1]) - ord('a')] += 1  # Add the rightmost character
+        if window_count == p_count:
+            result.append(i)
+    return result
 
 def fourSumCount(nums1, nums2, nums3, nums4):
     """https://leetcode.com/problems/4sum-ii/

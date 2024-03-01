@@ -132,3 +132,67 @@ def palindrome_partitioning(s: str):
     palindrome_backtrack(s, [], res)
 
     return res
+
+def number_of_islands(grid):
+    """https://leetcode.com/problems/number-of-islands/description/"""
+    if not grid:
+        return 0
+    rows, cols = len(grid), len(grid[0])
+    islands_count = 0
+
+    def dfs(row, col):
+        if row < 0 or row >= rows or col < 0 or col >= cols or grid[row][col] == '0':
+            return
+        grid[row][col] = '0'
+        # Explore adjacent land cells
+        dfs(row - 1, col)  # Up
+        dfs(row + 1, col)  # Down
+        dfs(row, col - 1)  # Left
+        dfs(row, col + 1)  # Right
+    for row in range(rows):
+        for col in range(cols):
+            if grid[row][col] == '1':
+                islands_count += 1
+                dfs(row, col)
+    return islands_count
+
+def remove_invalid_parenthesis(s):
+    """https://leetcode.com/problems/remove-invalid-parentheses/"""
+    from collections import deque
+
+    def isValid(string):
+        count = 0
+        for char in string:
+            if char == '(':
+                count += 1
+            elif char == ')':
+                count -= 1
+            if count < 0:
+                return False
+        return count == 0
+        
+    result = []
+    visited = set()
+    queue = deque([s])
+    found = False
+    
+    while queue:
+        current_str = queue.popleft()
+        
+        if isValid(current_str):
+            result.append(current_str)
+            found = True
+        
+        if found:
+            continue
+        for i, char in enumerate(current_str):
+            if char.isalpha():
+                continue
+            
+            next_str = current_str[:i] + current_str[i + 1:]
+            
+            if next_str not in visited:
+                visited.add(next_str)
+                queue.append(next_str)
+    
+    return result

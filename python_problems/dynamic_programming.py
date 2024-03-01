@@ -22,8 +22,41 @@ def best_time_to_buy_and_sell_stock(prices):
         min_price = min(min_price, price)
         current_profit = price - min_price
         max_profit = max(max_profit, current_profit)
-
     return max_profit
+
+def best_time_to_buy_and_sell_stock_ii(prices):
+    """https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii"""
+    max_profit = 0
+    for i in range(1, len(prices)):
+        price_diff = prices[i] - prices[i - 1]
+        if price_diff > 0:
+            max_profit += price_diff
+    return max_profit
+
+def max_profit_transaction_fee(prices, fee):
+    """https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/"""
+    n = len(prices)
+    hold, cash = -prices[0], 0
+    for i in range(1, n):
+        hold = max(hold, cash - prices[i])
+        cash = max(cash, hold + prices[i] - fee)
+    return cash
+
+def max_prfit_sell_cooldown(prices):
+    """https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/"""
+    n = len(prices)
+
+    # Define variables for holding stock, having no stock, and cooldown
+    hold, cash, cooldown = float('-inf'), 0, 0
+
+    for i in range(n):
+        prev_hold = hold
+        hold = max(hold, cooldown - prices[i])
+        cooldown = cash
+        cash = max(cash, prev_hold + prices[i])
+
+    return max(cash, cooldown)
+
 
 def climb_stairs(n):
     """https://leetcode.com/problems/climbing-stairs/description/"""
