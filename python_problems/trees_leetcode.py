@@ -49,7 +49,7 @@ def has_path_sum(root, target_sum):
         return False
     return has_sum(root, target_sum, 0)
 
-def has_path_sum_ii(root):
+def has_path_sum_ii(root, targetSum):
     """https://leetcode.com/problems/path-sum-ii/"""
     result = []
     def dfs(node, current_sum, path):

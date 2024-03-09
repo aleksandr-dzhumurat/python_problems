@@ -47,13 +47,9 @@ def twoSum(nums, target):
 
 
 def timeConversion(s):
-    #
-    # Write your code here.
-    #
     shift = 0
     if s[-2:]=='PM':
         shift = 12
-    #print(s[-2:], s[:-2])
     h, m, s = s[:-2].split(':')
     h = int(h)
     h = h + shift
@@ -63,14 +59,11 @@ def timeConversion(s):
 
 
 def bin_search(arr: list, target: int):
-    """https://leetcode.com/problems/binary-search"""
-    sorted_arr = sorted(arr)
-    N = len(sorted_arr)
-    low = 0
-    high = N - 1
+    """https://leetcode.com/problems/binary-search/"""
+    low, high = 0, len(arr) - 1
     while low <= high:
         mid_index = (high + low) // 2
-        mid_elem = sorted_arr[mid_index] # для целей дебаггинга сохраняем в отдельную переменную
+        mid_elem = arr[mid_index]
         if target < mid_elem:
             high = mid_index - 1
         elif target > mid_elem:
@@ -115,9 +108,9 @@ class TwoSumClass:
             self.storage[item] += 1
 
     def find(self, target) -> bool:
-        for entry in self.storage:
+        for entry, val in self.storage.items():
             second_entry = target - entry
-            if second_entry == entry and self.storage[entry] == 2:
+            if second_entry == entry and val == 2:
                 return True
             elif second_entry in self.storage:
                 return True
@@ -125,6 +118,7 @@ class TwoSumClass:
 
 
 def valid_palindrome(input_str):
+    """https://leetcode.com/problems/valid-palindrome/"""
     begin = 0
     end = len(input_str) - 1
     while begin < end:
@@ -140,7 +134,7 @@ def valid_palindrome(input_str):
 
 
 def strstr_bruteforce(needle, haystack: str):
-    """
+    """https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/
         Returns the index of the first occurrence of needle in haystack, or –1
         if needle is not part of haystack.
     """
@@ -157,8 +151,6 @@ def strstr_bruteforce(needle, haystack: str):
             elif i + j == str_len:
                 return -1
             elif haystack[i + j] != needle[j]:
-                str_char = haystack[i + j]
-                pattern_char = needle[j]
                 break
 
 
@@ -212,16 +204,17 @@ def find_missing_ranges(values, start, end):
         prev = current
     return ranges
 
-def expand_around_center(s, l, r):
-    while l >= 0 and r < len(s) and s[l] == s[r]:
-        l -= 1
-        r += 1
-    return s[l+1:r]
-
 def longest_palindrome(s):
-    """Given a string S, find the longest palindromic substring in S.
+    """https://leetcode.com/problems/longest-palindromic-substring/
+    Given a string S, find the longest palindromic substring in S.
     You may assume that the maximum length of S is 1000, and there exists one unique longest palindromic substring.
     """
+    def expand_around_center(s, l, r):
+        while l >= 0 and r < len(s) and s[l] == s[r]:
+            l -= 1
+            r += 1
+        return s[l+1:r]
+    
     longest = ''
     for i in range(len(s)):
         # нечётный палиндром: aba
@@ -310,11 +303,7 @@ def move_zeroes(nums):
     return nums
 
 def numRescueBoats(people, limit):
-    """
-    :type people: List[int]
-    :type limit: int
-    :rtype: int
-    """
+    """https://leetcode.com/problems/boats-to-save-people/"""
     people = sorted(people)
     light_p = 0
     heavy_p = len(people) - 1
@@ -368,17 +357,28 @@ def maxArea(height):
             right -= 1
     return max_vol
 
+def partition_labels(s):
+    """https://leetcode.com/problems/partition-labels/"""
+    last_occurrence = {char: idx for idx, char in enumerate(s)}
+    result = []
+    start, end = 0, 0
+    
+    for idx, char in enumerate(s):
+        end = max(end, last_occurrence[char])
+        
+        if idx == end:
+            result.append(end - start + 1)
+            start = idx + 1
+    
+    return result
+
 def searchRange(nums, target):
-    """
-    https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
-    :type nums: List[int]
-    :type target: int
-    :rtype: List[int]
+    """https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
     """
     first_entry = -1
     last_entry = -1
-    for i in range(len(nums)):
-        if nums[i] == target:
+    for i, val in enumerate(nums):
+        if val == target:
             first_entry = i
             break
     last_entry = first_entry
@@ -435,25 +435,29 @@ def firstBadVersion(n: int, ground_truth: int):
         mid_elem += 1  # 2, 2
     return mid_elem
 
-def missingNumber(self, nums):
-    """ https://leetcode.com/problems/missing-number
-    TODO: improve, based on Gauss formula progression)
-    :type nums: List[int]
-    :rtype: int
+def missingNumber(nums):
+    """https://leetcode.com/problems/missing-number
+    TODO: improve, based on Gauss formula progression
+    XoR explained https://habr.com/ru/companies/vdsina/articles/538298/
     """
+    # n = len(nums)
+    # num_exists ={}
+    # for i in nums:
+    #     num_exists[i] = True
+    # for i in range(n+1):
+    #     if not i in num_exists:
+    #         return i
     n = len(nums)
-    num_exists ={}
-    for i in nums:
-        num_exists[i] = True
-    for i in range(n+1):
-        if not i in num_exists:
-            return i
+    xor_result = 0
+    for i in range(n):
+        xor_result ^= nums[i]
+    for i in range(1, n + 1):
+        xor_result ^= i
+    return xor_result
 
 def countPrimes(n: int):
     """https://leetcode.com/problems/count-primes/
     sieve of eratosthenes
-    :type n: int
-    :rtype: int
     """
     if n <=2: return 0
     is_prime = [True] * n
@@ -475,6 +479,8 @@ def singleNumber(nums):
 def singleNumberMemoryLimit(nums):
     """ XORing a number with itself results in 0, and XORing any number with 0 results in the number itself.
     By XORing all the elements in the array, the duplicates will cancel each other out, leaving only the single element.
+
+    https://habr.com/ru/companies/vdsina/articles/538298/
     """
     result = 0
     for num in nums:

@@ -175,24 +175,18 @@ def remove_invalid_parenthesis(s):
     visited = set()
     queue = deque([s])
     found = False
-    
     while queue:
         current_str = queue.popleft()
-        
         if isValid(current_str):
             result.append(current_str)
             found = True
-        
         if found:
             continue
         for i, char in enumerate(current_str):
             if char.isalpha():
                 continue
-            
             next_str = current_str[:i] + current_str[i + 1:]
-            
             if next_str not in visited:
                 visited.add(next_str)
                 queue.append(next_str)
-    
     return result

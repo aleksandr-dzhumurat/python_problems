@@ -45,10 +45,7 @@ def max_profit_transaction_fee(prices, fee):
 def max_prfit_sell_cooldown(prices):
     """https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/"""
     n = len(prices)
-
-    # Define variables for holding stock, having no stock, and cooldown
     hold, cash, cooldown = float('-inf'), 0, 0
-
     for i in range(n):
         prev_hold = hold
         hold = max(hold, cooldown - prices[i])
@@ -100,7 +97,6 @@ def longest_palindrome(s):
     """https://leetcode.com/problems/longest-palindromic-substring/"""
     n = len(s)
     dp = [[False] * n for _ in range(n)]
-
     # All substrings of length 1 are palindromes
     for i in range(n):
         dp[i][i] = True

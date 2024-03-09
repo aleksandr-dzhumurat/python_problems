@@ -1,3 +1,6 @@
+import heapq
+from collections import Counter, deque
+
 def fib(n):
     """https://leetcode.com/problems/fibonacci-number/description/"""
     def fibonacci_memoization(n, memo={}):
@@ -26,7 +29,7 @@ def guess(num):
         return 1
     else:
         return -1
-  
+
 def guessNumber(n):
     """https://leetcode.com/problems/guess-number-higher-or-lower/"""
     left, right = 1, n
@@ -82,27 +85,27 @@ def search_rotated_sorted_array(nums, target):
     return -1
 
 def search_rotated_sorted_array_ii(nums, target):
-        """https://leetcode.com/problems/search-in-rotated-sorted-array-ii"""
-        left, right = 0, len(nums) - 1
-        while left <= right:
-            mid = (left + right) // 2
-            if nums[mid] == target:
-                return True
-            while left < mid and nums[left] == nums[mid]:
-                left += 1
-            while right > mid and nums[right] == nums[mid]:
-                right -= 1
-            if nums[left] <= nums[mid]:
-                if nums[left] <= target < nums[mid]:
-                    right = mid - 1
-                else:
-                    left = mid + 1
+    """https://leetcode.com/problems/search-in-rotated-sorted-array-ii"""
+    left, right = 0, len(nums) - 1
+    while left <= right:
+        mid = (left + right) // 2
+        if nums[mid] == target:
+            return True
+        while left < mid and nums[left] == nums[mid]:
+            left += 1
+        while right > mid and nums[right] == nums[mid]:
+            right -= 1
+        if nums[left] <= nums[mid]:
+            if nums[left] <= target < nums[mid]:
+                right = mid - 1
             else:
-                if nums[mid] < target <= nums[right]:
-                    left = mid + 1
-                else:
-                    right = mid - 1
-        return False
+                left = mid + 1
+        else:
+            if nums[mid] < target <= nums[right]:
+                left = mid + 1
+            else:
+                right = mid - 1
+    return False
 
 
 def find_min(nums):
@@ -159,11 +162,17 @@ def merge_intervals(intervals):
             merged_intervals.append([current_start, current_end])
     return merged_intervals
 
+def schedule_tasks(tasks, n):
+    """https://leetcode.com/problems/task-scheduler/description/"""
+    task_counts = Counter(tasks)
+    # Get the task with the maximum frequency
+    max_freq = max(task_counts.values())
+    num_max_freq_tasks = list(task_counts.values()).count(max_freq)
+    total_intervals = (max_freq - 1) * (n + 1) + num_max_freq_tasks
+    return max(total_intervals, len(tasks))
+
 def top_k_frequent_words(words, k):
     """https://leetcode.com/problems/top-k-frequent-words/"""
-    import heapq
-    from collections import Counter
-
     word_count = Counter(words)
     max_heap = [(-freq, word) for word, freq in word_count.items()]
     heapq.heapify(max_heap)
@@ -174,8 +183,6 @@ def top_k_frequent_words(words, k):
 
 def mean_sliding_window(nums, k):
     """https://leetcode.com/problems/sliding-window-median/"""
-    import heapq
-    
     result = []
     for i in range(len(nums) - k + 1):
         window = sorted(nums[i:i + k])  # Sort the current window
@@ -189,26 +196,38 @@ def mean_sliding_window(nums, k):
 
 def maximum_sliding_window(nums, k):
     """https://leetcode.com/problems/sliding-window-maximum"""
-    from collections import deque
-
     result = []
-    window = deque()
-    # Fill the initial window
-    for i in range(k):
-        while window and nums[i] >= window[-1]:
-            window.pop()
-        window.append(nums[i])
-    for i in range(k, len(nums)):
-        result.append(window[0])
-        # Remove elements outside the window
-        if window[0] == nums[i - k]:
-            window.popleft()
-        # Update the window
-        while window and nums[i] >= window[-1]:
-            window.pop()
-        window.append(nums[i])
-    result.append(window[0])  # Append the last window's maximum
+    dq = deque()
+    for i, num in enumerate(nums):
+        # Remove elements outside the current window
+        while dq and dq[0] < i - k + 1:
+            dq.popleft()
+        # Remove elements smaller than the current element from the back
+        while dq and nums[dq[-1]] < num:
+            dq.pop()
+        dq.append(i)
+        # Add the maximum element for the current window to the result
+        if i >= k - 1:
+            result.append(nums[dq[0]])
     return result
+
+def longest_substring(s, k):
+    """https://leetcode.com/problems/longest-repeating-character-replacement/"""
+    max_length = 0
+    max_count = 0
+    char_count = {}
+    left = 0
+    for right, char in enumerate(s):
+        char_count[char] = char_count.get(char, 0) + 1
+        max_count = max(max_count, char_count[char])
+        while (right - left + 1 - max_count) > k:
+            left_char = s[left]
+            char_count[left_char] -= 1
+            left += 1
+        max_length = max(max_length, right - left + 1)
+    return max_length
+
 
 if __name__ == '__main__':
     # print(fib_plain_recursion(10))
+    pass
