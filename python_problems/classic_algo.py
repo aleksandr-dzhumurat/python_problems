@@ -2,7 +2,7 @@ import heapq
 from collections import Counter, deque
 
 def fib(n):
-    """https://leetcode.com/problems/fibonacci-number/description/"""
+    """https://leetcode.com/problems/fibonacci-number"""
     def fibonacci_memoization(n, memo={}):
         if n in memo:
             return memo[n]
@@ -15,7 +15,7 @@ def fib(n):
     return result
 
 def fib_plain_recursion(n):
-    """https://leetcode.com/problems/fibonacci-number/description/"""
+    """https://leetcode.com/problems/fibonacci-number"""
     if n <= 1:
         return n
     else:

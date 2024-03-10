@@ -2,6 +2,7 @@
 
 import math
 from collections import defaultdict
+from typing import Optional
 
 
 def staircase(n):
@@ -159,21 +160,26 @@ def longest_substr_with_no_repeated(s):
     if len(s) == 0: return 0
     start = maxLength = 0
     usedChars = {}
-    for i in range(len(s)):
-        if s[i] in usedChars and start <= usedChars[s[i]]:
-            start = usedChars[s[i]] + 1
+    for i, val in enumerate(s):
+        if val in usedChars and start <= usedChars[val]:
+            start = usedChars[val] + 1
         else:
             maxLength = max(maxLength, i - start + 1)
-        usedChars[s[i]] = i
+        usedChars[val] = i
     return maxLength
 
 
-def reverse_str(str_list: list, begin: int, end: int):
+def reverse_str(s: list, begin: Optional[int] = None, end: Optional[int] = None):
+    """https://leetcode.com/problems/reverse-string/"""
+    if begin is None:
+        begin = 0
+    if end is None:
+        end = len(s)
     for i in range((end - begin) // 2):
-        swap = str_list[begin + i]
-        str_list[begin + i] = str_list[end - i -1]
-        str_list[end - i -1] = swap
-    return ''.join(str_list)
+        swap = s[begin + i]
+        s[begin + i] = s[end - i -1]
+        s[end - i - 1] = swap
+    return ''.join(s)
 
 
 def reverse_sentence(input_str: str):
@@ -228,7 +234,9 @@ def longest_palindrome(s):
     return longest
 
 def is_one_edit_distance(s: str, t: str) -> bool:
-    """Given two strings S and T, determine if they are both one edit distance apart."""
+    """https://leetcode.com/problems/one-edit-distance
+    Given two strings S and T, determine if they are both one edit distance apart.
+    """
     small_str_len, long_str_len = len(s), len(t)
     if (small_str_len > long_str_len):
         return is_one_edit_distance(t, s)
@@ -249,6 +257,7 @@ def is_one_edit_distance(s: str, t: str) -> bool:
     return i==small_str_len
 
 def integer_reverse(x: int):
+    """https://leetcode.com/problems/reverse-integer"""
     reversed = 0
     neg = 1
     if x < 0:
@@ -262,6 +271,7 @@ def integer_reverse(x: int):
     return reversed
 
 def plus_one(digits: list):
+    """https://leetcode.com/problems/plus-one"""
     num_digits = len(digits)
     in_mind = 1
     for i in range(num_digits):
@@ -273,6 +283,7 @@ def plus_one(digits: list):
     return digits
 
 def is_integer_palindrome(x: int):
+    """https://leetcode.com/problems/palindrome-number"""
     if x < 0:
         return False
     div = 1
@@ -288,10 +299,7 @@ def is_integer_palindrome(x: int):
     return True
 
 def move_zeroes(nums):
-    """
-    :type nums: List[int]
-    :rtype: None Do not return anything, modify nums in-place instead.
-    """
+    """https://leetcode.com/problems/move-zeroes"""
     j = 0
     for num in nums:
         if num != 0:
@@ -319,12 +327,7 @@ def numRescueBoats(people, limit):
     return boats
 
 def validMountainArray(arr):
-    """
-    https://leetcode.com/problems/valid-mountain-array/
-
-    :type arr: List[int]
-    :rtype: bool
-    """
+    """https://leetcode.com/problems/valid-mountain-array/"""
     i = 1
     while i < len(arr) and  arr[i] > arr[i-1]:
         i += 1
@@ -338,11 +341,7 @@ def validMountainArray(arr):
         return False
 
 def maxArea(height):
-    """
-    https://leetcode.com/problems/container-with-most-water/
-    :type height: List[int]
-    :rtype: int
-    """
+    """https://leetcode.com/problems/container-with-most-water/"""
     def eval_area(i, j):
         return min(height[i], height[j])*(j - i)
     left = 0
@@ -395,10 +394,7 @@ def isBadVersion(version, ground_truth):
         return False
 
 def firstBadVersion_array(n: int, ground_truth: int):
-    """ https://leetcode.com/problems/first-bad-version/
-    :type n: int
-    :rtype: int
-    """
+    """https://leetcode.com/problems/first-bad-version/"""
     sorted_arr = list(range(1,n+1))
     N = len(sorted_arr)
     low = 0
@@ -408,11 +404,11 @@ def firstBadVersion_array(n: int, ground_truth: int):
             break
         mid_index = (high + low) // 2
         mid_elem = sorted_arr[mid_index]
-        if isBadVersion(mid_elem):
+        if isBadVersion(mid_elem, ground_truth):
             high = mid_index
         else:
             low = mid_index + 1
-    if not isBadVersion(sorted_arr[mid_index]):
+    if not isBadVersion(sorted_arr[mid_index], ground_truth):
         mid_index += 1  # 2, 2
     return sorted_arr[mid_index]
 
@@ -488,31 +484,24 @@ def singleNumberMemoryLimit(nums):
     return result
 
 def judgeCircle(moves):
-    """https://leetcode.com/problems/robot-return-to-origin/
-    :type moves: str
-    :rtype: bool
-    """
+    """https://leetcode.com/problems/robot-return-to-origin/"""
     x, y = (0, 0)
     for m in moves:
         if m == 'U':
-            y +=1 
+            y += 1
         elif m == 'R':
-            x +=1
+            x += 1
         elif m == 'D':
             y -= 1
         elif m == 'L':
-            x -=1
+            x -= 1
     if x == 0 and y ==0:
         return True
     else:
         return False
 
 def addBinary(a, b):
-    """ https://leetcode.com/problems/add-binary/
-    :type a: str
-    :type b: str
-    :rtype: str
-    """
+    """ https://leetcode.com/problems/add-binary/"""
     i = len(a) - 1
     j = len(b) - 1
     res = ""
@@ -530,10 +519,7 @@ def addBinary(a, b):
     return res
 
 def containsDuplicate(nums):
-    """https://leetcode.com/problems/contains-duplicate/
-    :type nums: List[int]
-    :rtype: bool
-    """
+    """https://leetcode.com/problems/contains-duplicate/"""
     entries = {}
     for i in nums:
         if i in entries:
@@ -541,10 +527,7 @@ def containsDuplicate(nums):
         entries[i] = True
 
 def majorityElement(nums):
-    """https://leetcode.com/problems/majority-element/submissions/
-    :type nums: List[int]
-    :rtype: int
-    """
+    """https://leetcode.com/problems/majority-element/"""
     majority_element_count = int(math.floor(len(nums) / 2))
     res = {}
     for num in nums:
@@ -553,12 +536,7 @@ def majorityElement(nums):
             return num
 
 def majorityElementBoyerMoor(nums):
-    """https://leetcode.com/problems/majority-element/submissions/
-    Only if you can garatee that majority element exists
-
-    :type nums: List[int]
-    :rtype: int
-    """
+    """https://leetcode.com/problems/majority-element"""
     candidate = nums[0]
     cnt = 0
     for num in nums:
@@ -613,13 +591,7 @@ def findAnagrams(s, p):
     return result
 
 def fourSumCount(nums1, nums2, nums3, nums4):
-    """https://leetcode.com/problems/4sum-ii/
-    :type nums1: List[int]
-    :type nums2: List[int]
-    :type nums3: List[int]
-    :type nums4: List[int]
-    :rtype: int
-    """
+    """https://leetcode.com/problems/4sum-ii/"""
     input_len = len(nums1)
     sums_12 = {}
     sums_34 = {}
@@ -674,11 +646,7 @@ def nextGreatestLetter(letters, target):
 
 
 def minWindow(s, t):
-    """https://leetcode.com/problems/minimum-window-substring/
-    :type s: str
-    :type t: str
-    :rtype: str
-    """
+    """https://leetcode.com/problems/minimum-window-substring/"""
     res = ""
     if len(s) < len(t):
         return res
@@ -687,8 +655,7 @@ def minWindow(s, t):
         pattern_hashmap[i] += 1
     l, r, cnt, start_index = 0, 0, 0, -1
     min_len = float('inf')
-    for r in range(len(s)): # window exanding
-        cur_char  = s[r]
+    for r, cur_char in enumerate(s): # window exanding
         s_hashmap[cur_char] += 1
         if cur_char in pattern_hashmap and s_hashmap[cur_char] <= pattern_hashmap[cur_char]:
             cnt += 1

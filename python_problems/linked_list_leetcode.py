@@ -23,7 +23,7 @@ def merge_sorted_lists(list1: ListNode, list2: ListNode):
     return res.next
 
 def merge_k_sorted_lists(lists):
-    """https://leetcode.com/problems/merge-k-sorted-lists/submissions/1187482119/
+    """https://leetcode.com/problems/merge-k-sorted-lists
     """
     from heapq import heappush, heappop
 
@@ -58,7 +58,7 @@ def hasCycle(head):
     return False
 
 def add_two_numbers(l1, l2):
-    """https://leetcode.com/problems/add-two-numbers/description/"""
+    """https://leetcode.com/problems/add-two-numbers"""
     res = ListNode(None)
     current = res
     carry = val_sum = 0
@@ -93,7 +93,7 @@ def remove_nth_from_end(head, n):
     return tmp.next
 
 def odd_even_list(head):
-    """https://leetcode.com/problems/odd-even-linked-list/description/"""
+    """https://leetcode.com/problems/odd-even-linked-list/"""
     if head is None:
         return None
     odd = head

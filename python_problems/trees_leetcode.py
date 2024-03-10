@@ -1,4 +1,6 @@
-from collections import deque
+from collections import deque, defaultdict
+from typing import List
+
 
 # Definition for a binary tree node.
 class TreeNode(object):
@@ -171,32 +173,32 @@ def tree_level_order_traversal(root):
 
 
 def tree_zig_zag_level_order(root):
-        """https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/description/"""
-        if not root:
-            return []
-        result = []
-        queue = [root]
-        level_index = 1
+    """https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal"""
+    if not root:
+        return []
+    result = []
+    queue = [root]
+    level_index = 1
 
-        while len(queue) > 0:
-            level_size = len(queue)
-            current_level = []
-            for _ in range(level_size):
-                current_node = queue.pop(0)
-                current_level.append(current_node.val)
-                if current_node.left:
-                    queue.append(current_node.left)
-                if current_node.right:
-                    queue.append(current_node.right)
-            if level_index % 2 ==0:
-                result.append(current_level[::-1])
-            else:
-                result.append(current_level)
-            level_index += 1
-        return result
+    while len(queue) > 0:
+        level_size = len(queue)
+        current_level = []
+        for _ in range(level_size):
+            current_node = queue.pop(0)
+            current_level.append(current_node.val)
+            if current_node.left:
+                queue.append(current_node.left)
+            if current_node.right:
+                queue.append(current_node.right)
+        if level_index % 2 ==0:
+            result.append(current_level[::-1])
+        else:
+            result.append(current_level)
+        level_index += 1
+    return result
 
 def postorderTraversal(root):
-    """https://leetcode.com/problems/binary-tree-postorder-traversal/description/"""
+    """https://leetcode.com/problems/binary-tree-postorder-traversal"""
     result = []
     if root:
         result.extend(postorderTraversal(root.left))
@@ -205,7 +207,7 @@ def postorderTraversal(root):
     return result
 
 def isSameTree(p, q):
-    """https://leetcode.com/problems/same-tree/description/"""
+    """https://leetcode.com/problems/same-tree"""
     if not p and not q:
         return True
     if not p or not q:
@@ -232,3 +234,36 @@ def isBalanced(root):
                isBalancedHelper(node.right)
 
     return isBalancedHelper(root)
+
+def distanceK(root: TreeNode, target: TreeNode, k: int) -> List[int]:
+    """https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree"""
+    result = []
+    def dfs(node):
+        if not node:
+            return -1
+        if node is target:
+            subtree_nodes_at_distance_k(node, k, result)
+            return 0
+        left_distance = dfs(node.left)
+        right_distance = dfs(node.right)
+        if left_distance >= 0:
+            if left_distance + 1 == k:
+                result.append(node.val)
+            subtree_nodes_at_distance_k(node.right, k - left_distance - 2, result)
+            return left_distance + 1
+        if right_distance >= 0:
+            if right_distance + 1 == k:
+                result.append(node.val)
+            subtree_nodes_at_distance_k(node.left, k - right_distance - 2, result)
+            return right_distance + 1
+        return -1
+    def subtree_nodes_at_distance_k(node, remaining_distance, result):
+        if not node or remaining_distance < 0:
+            return
+        if remaining_distance == 0:
+            result.append(node.val)
+            return
+        subtree_nodes_at_distance_k(node.left, remaining_distance - 1, result)
+        subtree_nodes_at_distance_k(node.right, remaining_distance - 1, result)
+    dfs(root)
+    return result

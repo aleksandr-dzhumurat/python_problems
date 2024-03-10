@@ -1,5 +1,5 @@
 def house_robber(nums):
-    """https://leetcode.com/problems/house-robber/description/"""
+    """https://leetcode.com/problems/house-robber"""
     if not nums:
         return 0
     n = len(nums)
@@ -56,7 +56,7 @@ def max_prfit_sell_cooldown(prices):
 
 
 def climb_stairs(n):
-    """https://leetcode.com/problems/climbing-stairs/description/"""
+    """https://leetcode.com/problems/climbing-stairs"""
     if n == 1:
         return 1
     if n == 2:
@@ -82,7 +82,7 @@ def coin_change(coins, amount):
     return res
 
 def unique_paths(m, n):
-    """https://leetcode.com/problems/unique-paths/description/"""
+    """https://leetcode.com/problems/unique-paths"""
     dp = [[0] * n for _ in range(m)]
     for i in range(m):
         dp[i][0] = 1

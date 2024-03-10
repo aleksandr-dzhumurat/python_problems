@@ -35,7 +35,7 @@ class MinStack:
 
 
 def isValid(s):
-    """https://leetcode.com/problems/valid-parentheses/description/"""
+    """https://leetcode.com/problems/valid-parentheses/"""
     stack = []
     brackets = {'(': ')', '{': '}', '[': ']'}
     

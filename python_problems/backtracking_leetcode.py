@@ -134,7 +134,7 @@ def palindrome_partitioning(s: str):
     return res
 
 def number_of_islands(grid):
-    """https://leetcode.com/problems/number-of-islands/description/"""
+    """https://leetcode.com/problems/number-of-islands"""
     if not grid:
         return 0
     rows, cols = len(grid), len(grid[0])
