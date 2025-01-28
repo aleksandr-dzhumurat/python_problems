@@ -87,7 +87,6 @@ def lowest_common_ancestor(root, p, q):
     
     return left
 
-
 def kthSmallest(root, k):
     """https://leetcode.com/problems/kth-smallest-element-in-a-bst/"""
     def inorder_traversal(node):

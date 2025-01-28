@@ -22,7 +22,7 @@ source .env/bin/activate
 
 Установка зависимостей
 ```shell
-pip3 install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 ## Окружение для Mac
@@ -36,19 +36,16 @@ brew install pyenv-virtualenv
 ```
 
 ```shell
-pyenv install 3.8.10
+pyenv install 3.12
 ```
 
 ```shell
-pyenv virtualenv 3.8.10 problem-env
+pyenv virtualenv 3.12 problems-env
 ```
 
-```shell
-pyenv install 3.8.10
-```
 
 ```shell
-    source ~/.pyenv/versions/problem-env/bin/activate
+    source ~/.pyenv/versions/problems-env/bin/activate
 ```
 
 
